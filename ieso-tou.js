@@ -11,7 +11,8 @@
 			"summer" : [5,1],
 			"winter" : [11,1]
 		},
-		$peaksfr = ['pÃƒÂ©riode creuse','pÃƒÂ©riode mÃƒÂ©diane','pÃƒÂ©riode de pointe'],
+		lang = document.documentElement.lang,
+		$peaksfr = ['Période creuse','Période médiane','Période de pointe'],
 		$peakColors = [
 			{ 'background-color' : '#48a942', 'text-color' : '#48a942' },
 			{ 'background-color' : '#F8971D', 'text-color' : '#F8971D' },
@@ -154,18 +155,36 @@
 		$output = function(){
 			/* loops */
 			var $pattern;
+			
+
 			for(var $w=0; $w<$usagePatterns[$season()].length; $w++){
 				$pattern = !$isWeekend() ? $usagePatterns[$season()][$w] : 'Off';
 				$weekdays[$w] = $getrate($pattern);
 			}
-			var $ctou = $returnToU(),
-			$html = '<div class="ctu-container">' + 
-			'<span class="ctu-title">Current Time-of-Use Price</span>' + 
+
+			var $ctou = $returnToU();
+
+			if( lang == 'fr' ){
+
+				$ctu_title     = 'Tarif selon l’heure de consommation actuel';
+				$ctu_peak      = $peaksfr[$getindexfrompeak($getpeak($ctou['current']))];
+				$fr_hour       = $ctou['ampm'] == 'pm' ? Number( $ctou['hour'] ) + 12 : $ctou['hour'];
+				$ctu_peak_info = '<strong>' + (($ctou['current'] * 100)).toFixed(1) + ' &cent;/kWh</strong> à ' + $fr_hour + ' h ' + '</span>';
+
+			}else{
+
+				$ctu_title     = 'Current Time-of-Use Price';
+				$ctu_peak      = $getpeak($ctou['current']) + '-Peak';
+				$ctu_peak_info = '<strong>' + (($ctou['current'] * 100)).toFixed(1) + ' &cent;/kWh</strong> for ' + $ctou['hour'] + ' ' + $ctou['ampm'] + '</span>';
+
+			}
+			var $html = '<div class="ctu-container">' + 
+			'<span class="ctu-title">' + $ctu_title + '</span>' + 
 			'<div class="ctu-rates">' + 
 			'<div class="ctu-current">' + 
 			'<div class="ctu-info" style="background-color:' + $ctou['peakclass']['background-color'] + '; border-color:' + $ctou['peakclass']['background-color'] + ';">' + 
-			'<span class="ctu-peak">' + $getpeak($ctou['current']) + '-Peak</span>' + 
-			'<span class="ctu-peak-info"><strong>' + (($ctou['current'] * 100)).toFixed(1) + ' Â¢/kWh</strong> for ' + $ctou['hour'] + ' ' + $ctou['ampm'] + '</span>' + 
+			'<span class="ctu-peak">' + $ctu_peak + '</span>' + 
+			'<span class="ctu-peak-info">' + $ctu_peak_info + 
 			'</div>' + 
 			'</div>' + 
 			'<div class="ctu-next">' + 
@@ -191,7 +210,7 @@
 		/* start */
 
 		if(!$container){
-			
+
 			document.write('<link href="https://fonts.googleapis.com/css?family=Titillium+Web" rel="stylesheet"><link href="http://www.ieso.ca/-/media/Files/IESO/tou/ieso-tou-css.css" rel="stylesheet">');
 
 			var el = document.createElement("div");
