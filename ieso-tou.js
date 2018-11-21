@@ -177,9 +177,6 @@
 			'</div>' + 
 			'<span class="ctu-credit"><strong>Digital presentation by:</strong>&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://www.ieso.ca" target="_blank">www.ieso.ca</a></span>' + 
 			'</div>';
-			if(!$container){
-				document.write('<link href="https://fonts.googleapis.com/css?family=Titillium+Web" rel="stylesheet"><link href="http://www.ieso.ca/-/media/Files/IESO/tou/ieso-tou-css.css" rel="stylesheet"><div id="ctu-container"></div>');
-			}
 			$container = document.getElementById('ctu-container');
 			$container.innerHTML = $html;
 		},
@@ -192,6 +189,17 @@
 			}
 		};
 		/* start */
+
+		if(!$container){
+			
+			document.write('<link href="https://fonts.googleapis.com/css?family=Titillium+Web" rel="stylesheet"><link href="http://www.ieso.ca/-/media/Files/IESO/tou/ieso-tou-css.css" rel="stylesheet">');
+
+			var el = document.createElement("div");
+			el.setAttribute("id", "ctu-container");
+			document.body.appendChild(el);
+
+		}
+
 		$output();
 		$resize();
 		/* set for refresh */
