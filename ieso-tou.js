@@ -168,19 +168,21 @@
 
 				$ctu_title     = 'Tarif selon l’heure de consommation actuel';
 				$ctu_peak      = $peaksfr[$getindexfrompeak($getpeak($ctou['current']))];
-				$fr_hour       = $ctou['ampm'] == 'pm' ? Number( $ctou['hour'] ) + 12 : $ctou['hour'];
+				$fr_hour       = $ctou['ampm'] == 'p.m.' ? Number( $ctou['hour'] ) + 12 : $ctou['hour'];
 				$ctu_peak_info = '<strong>' + (($ctou['current'] * 100)).toFixed(1) + ' &cent;/kWh</strong> à ' + $fr_hour + ' h ' + '</span>';
-				$ctu_peak      = 'La ' + String( $peaksfr[ $getindexfrompeak( $getpeak( $ctou['nextpeak'] ) ) ] ).toLowerCase() + ' débute à ';
-				$ctu_peak_time = $ctou['nampm'] == 'pm' ? Number( $ctou['nh'] ) + 12 : $ctou['nh'];
+				$ctu_nextpeak  = 'La ' + String( $peaksfr[ $getindexfrompeak( $getpeak( $ctou['nextpeak'] ) ) ] ).toLowerCase() + ' débute à ';
+				$ctu_peak_time = $ctou['nampm'] == 'p.m.' ? Number( $ctou['nh'] ) + 12 : $ctou['nh'];
 				$ctu_peak_time += ' h';
+				$ctu_pres      = 'Présentation numérique par';
 
 			}else{
 
 				$ctu_title     = 'Current Time-of-Use Price';
 				$ctu_peak      = $getpeak($ctou['current']) + '-Peak';
 				$ctu_peak_info = '<strong>' + (($ctou['current'] * 100)).toFixed(1) + ' &cent;/kWh</strong> for ' + $ctou['hour'] + ' ' + $ctou['ampm'] + '</span>';
-				$ctu_peak      = $getpeak($ctou['nextpeak']) + '-Peak Starts';
+				$ctu_nextpeak  = $getpeak($ctou['nextpeak']) + '-Peak Starts';
 				$ctu_peak_time = $ctou['nh'] + ' ' + $ctou['nampm'];
+				$ctu_pres      = 'Digital presentation by:';
 
 			}
 			var $html = '<div class="ctu-container">' + 
@@ -194,12 +196,12 @@
 			'</div>' + 
 			'<div class="ctu-next">' + 
 			'<div class="ctu-info" style="border-color:' + $ctou['nextpeakclass']['background-color'] + ';">' + 
-			'<span class="ctu-peak">' + $ctu_peak + '</span>' + 
+			'<span class="ctu-peak">' + $ctu_nextpeak + '</span>' + 
 			'<span class="ctu-peak-time">' + $ctu_peak_time + '</span>' + 
 			'</div>' + 
 			'</div>' + 
 			'</div>' + 
-			'<span class="ctu-credit"><strong>Digital presentation by:</strong>&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://www.ieso.ca" target="_blank">www.ieso.ca</a></span>' + 
+			'<span class="ctu-credit"><strong>' + $ctu_pres + '</strong>&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://www.ieso.ca" target="_blank">www.ieso.ca</a></span>' + 
 			'</div>';
 			$container = document.getElementById('ctu-container');
 			$container.innerHTML = $html;
