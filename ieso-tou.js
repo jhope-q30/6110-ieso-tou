@@ -170,12 +170,17 @@
 				$ctu_peak      = $peaksfr[$getindexfrompeak($getpeak($ctou['current']))];
 				$fr_hour       = $ctou['ampm'] == 'pm' ? Number( $ctou['hour'] ) + 12 : $ctou['hour'];
 				$ctu_peak_info = '<strong>' + (($ctou['current'] * 100)).toFixed(1) + ' &cent;/kWh</strong> à ' + $fr_hour + ' h ' + '</span>';
+				$ctu_peak      = 'La ' + String( $peaksfr[ $getindexfrompeak( $getpeak( $ctou['nextpeak'] ) ) ] ).toLowerCase() + ' débute à ';
+				$ctu_peak_time = $ctou['nampm'] == 'pm' ? Number( $ctou['nh'] ) + 12 : $ctou['nh'];
+				$ctu_peak_time += ' h';
 
 			}else{
 
 				$ctu_title     = 'Current Time-of-Use Price';
 				$ctu_peak      = $getpeak($ctou['current']) + '-Peak';
 				$ctu_peak_info = '<strong>' + (($ctou['current'] * 100)).toFixed(1) + ' &cent;/kWh</strong> for ' + $ctou['hour'] + ' ' + $ctou['ampm'] + '</span>';
+				$ctu_peak      = $getpeak($ctou['nextpeak']) + '-Peak Starts';
+				$ctu_peak_time = $ctou['nh'] + ' ' + $ctou['nampm'];
 
 			}
 			var $html = '<div class="ctu-container">' + 
@@ -189,8 +194,8 @@
 			'</div>' + 
 			'<div class="ctu-next">' + 
 			'<div class="ctu-info" style="border-color:' + $ctou['nextpeakclass']['background-color'] + ';">' + 
-			'<span class="ctu-peak">' + $getpeak($ctou['nextpeak']) + '-Peak Starts</span>' + 
-			'<span class="ctu-peak-time">' + $ctou['nh'] + ' ' + $ctou['nampm'] + '</span>' + 
+			'<span class="ctu-peak">' + $ctu_peak + '</span>' + 
+			'<span class="ctu-peak-time">' + $ctu_peak_time + '</span>' + 
 			'</div>' + 
 			'</div>' + 
 			'</div>' + 
