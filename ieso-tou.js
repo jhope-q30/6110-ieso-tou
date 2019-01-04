@@ -205,6 +205,7 @@
 			'</div>';
 			$container = document.getElementById('ctu-container');
 			$container.innerHTML = $html;
+
 		},
 		$resize = function(){
 			$container = document.getElementById('ctu-container');
@@ -213,34 +214,43 @@
 			}else{
 				$container.classList.remove('ctu-two-column');
 			}
-		};
-		/* start */
+		},
+		$init = function(){
 
-		if(!$container){
+			if(!$container){
 
-			document.write('<link href="https://fonts.googleapis.com/css?family=Titillium+Web" rel="stylesheet"><link href="http://www.ieso.ca/-/media/Files/IESO/tou/ieso-tou-css.css" rel="stylesheet">');
+				var el = document.createElement("div");
+				el.setAttribute("id", "ctu-container");
+				document.getElementById("ctu-target").appendChild(el);
+				//document.body.appendChild(el);
+	
+			}
 
-			var el = document.createElement("div");
-			el.setAttribute("id", "ctu-container");
-			document.body.appendChild(el);
-
-		}
-
-		$output();
-		$resize();
-		/* set for refresh */
-		var now = new Date();
-		var delay = 60 * 60 * 1000;
-		var start = delay - (now.getMinutes() * 60 + now.getSeconds()) * 1000 + now.getMilliseconds();
-		var test = 500;
-		$refresh_output = function(){
 			$output();
-			setTimeout( $refresh_output, delay );
-		}
-		setTimeout( $refresh_output, start );
-		/* on page resize */
-		window.onresize = function(event) {
-			// check container size
 			$resize();
-		};
+
+			// set for refresh
+			var now = new Date();
+			var delay = 60 * 60 * 1000;
+			var start = delay - (now.getMinutes() * 60 + now.getSeconds()) * 1000 + now.getMilliseconds();
+			var test = 500;
+			$refresh_output = function(){
+				$output();
+				setTimeout( $refresh_output, delay );
+			}
+			setTimeout( $refresh_output, start );
+			// on page resize
+			window.onresize = function(event) {
+				// check container size
+				$resize();
+			};
+
+		}
+
+		document.write('<link href="https://fonts.googleapis.com/css?family=Titillium+Web" rel="stylesheet"><link href="http://www.ieso.ca/-/media/Files/IESO/tou/ieso-tou-css.css" rel="stylesheet"><div id="ctu-target"></div>');
+
+		/* delay start */
+
+		setTimeout( $init, 250 );
+		
 })();
